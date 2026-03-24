@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Theme Detection Across Chapters</h1>
+
+<form method="POST" class="form-box">
+    <label for="num_clusters">Select number of clusters</label>
+    <select name="num_clusters">
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5" selected>5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+    </select>
+
+    <button type="submit" class="btn">Detect Themes</button>
+</form>
+
+{% if cluster_keywords %}
+<h2>Detected Theme Keywords</h2>
+{% for cluster, words in cluster_keywords.items() %}
+<div class="card">
+    <h3>Cluster {{ cluster }}</h3>
+    <p>{{ ", ".join(words) }}</p>
+</div>
+{% endfor %}
+{% endif %}
+
+{% if chart_path %}
+<h2>Theme Distribution Chart</h2>
+<div class="card">
+    <img src="{{ url_for('static', filename=chart_path) }}" alt="Theme Distribution Chart" class="theme-chart">
+</div>
+{% endif %}
+
+{% if theme_rows %}
+<h2>Sample Theme-tagged Verses</h2>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Chapter</th>
+        <th>Verse</th>
+        <th>Cluster</th>
+        <th>Theme</th>
+        <th>Meaning</th>
+    </tr>
+    {% for row in theme_rows %}
+    <tr>
+        <td>{{ row.ID }}</td>
+        <td>{{ row.Chapter }}</td>
+        <td>{{ row.Verse }}</td>
+        <td>{{ row.theme_cluster }}</td>
+        <td>{{ row.theme_name }}</td>
+        <td>{{ row.EngMeaning }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Emotion-based Verse Recommender</h1>
+
+<form method="POST" class="form-box">
+    <label><strong>Choose input type</strong></label>
+    <div class="radio-group">
+        <label>
+            <input type="radio" name="input_mode" value="dropdown" {% if input_mode == "dropdown" %}checked{% endif %}>
+            Emotion Dropdown
+        </label>
+        <label>
+            <input type="radio" name="input_mode" value="custom" {% if input_mode == "custom" %}checked{% endif %}>
+            Custom Text
+        </label>
+    </div>
+
+    <div class="form-section">
+        <label for="selected_emotion">Select emotion</label>
+        <select name="selected_emotion">
+            {% for emotion in emotion_map.keys() %}
+            <option value="{{ emotion }}" {% if selected_emotion == emotion %}selected{% endif %}>{{ emotion }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-section">
+        <label for="user_input">Describe how you are feeling</label>
+        <textarea name="user_input" rows="4" placeholder="Example: I failed my exam today and feel discouraged">{{ selected_input }}</textarea>
+    </div>
+
+    <div class="form-section">
+        <label for="chapter_filter">Filter by Chapter</label>
+        <select name="chapter_filter">
+            <option value="All" {% if selected_chapter == "All" %}selected{% endif %}>All Chapters</option>
+            {% for ch in range(1, 19) %}
+            <option value="{{ ch }}" {% if selected_chapter == ch|string %}selected{% endif %}>Chapter {{ ch }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-section">
+        <label for="top_k">Number of recommendations</label>
+        <select name="top_k">
+            <option value="3" {% if top_k == 3 %}selected{% endif %}>3</option>
+            <option value="5" {% if top_k == 5 %}selected{% endif %}>5</option>
+            <option value="7" {% if top_k == 7 %}selected{% endif %}>7</option>
+            <option value="10" {% if top_k == 10 %}selected{% endif %}>10</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn">Recommend Verses</button>
+</form>
+
+{% if detected_emotion %}
+<div class="info-box">
+    <h3>Detected Emotion</h3>
+    <p>{{ detected_emotion }}</p>
+</div>
+{% endif %}
+
+{% if raw_emotion %}
+<div class="info-box">
+    <h3>Raw BERT Emotion Label</h3>
+    <p>{{ raw_emotion }}</p>
+</div>
+{% endif %}
+
+{% if emotion_confidence is not none %}
+<div class="info-box">
+    <h3>Emotion Confidence</h3>
+    <p>{{ "%.4f"|format(emotion_confidence) }}</p>
+</div>
+{% endif %}
+
+{% if expanded_query %}
+<div class="info-box">
+    <h3>Interpreted Emotional Context</h3>
+    <p>{{ expanded_query }}</p>
+</div>
+{% endif %}
+
+{% if results %}
+<h2>Recommended Verses</h2>
+{% for r in results %}
+<div class="card result-card">
+    <h3>{{ r.ID }}</h3>
+    <p><strong>Chapter:</strong> {{ r.Chapter }} | <strong>Verse:</strong> {{ r.Verse }}</p>
+    <p><strong>Similarity Score:</strong> {{ "%.4f"|format(r.Score) }}</p>
+
+    {% if r.Shloka %}
+    <p><strong>Sanskrit Shloka:</strong></p>
+    <div class="shloka-box">{{ r.Shloka }}</div>
+    {% endif %}
+
+    <p><strong>English Meaning:</strong></p>
+    <p>{{ r.Meaning }}</p>
+</div>
+{% endfor %}
+{% endif %}
+{% endblock %}

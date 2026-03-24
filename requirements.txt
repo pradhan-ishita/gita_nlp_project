@@ -1,0 +1,9 @@
+Flask
+streamlit
+torch
+torchaudio
+torchvision
+transformers
+sentence-transformers
+huggingface_hub
+tokenizers
