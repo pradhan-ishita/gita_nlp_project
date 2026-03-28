@@ -1,9 +1,2 @@
-Flask
-streamlit
-torch
-torchaudio
-torchvision
-transformers
-sentence-transformers
-huggingface_hub
-tokenizers
+Flask==3.0.0
+gunicorn==21.2.0
