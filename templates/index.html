@@ -26,12 +26,13 @@
       background: var(--bg);
       color: var(--cream);
       font-family: 'Inter', sans-serif;
-      overflow: hidden;
     }
 
+    /* ── DESKTOP LAYOUT ── */
     .layout {
       display: flex;
       height: 100vh;
+      overflow: hidden;
     }
 
     .sidebar {
@@ -105,7 +106,7 @@
       font-family: 'Inter', sans-serif;
     }
 
-    .chip:hover {
+    .chip:hover, .chip:active {
       border-color: var(--gold-dim);
       color: var(--gold-light);
       background: rgba(201,150,58,0.08);
@@ -153,6 +154,7 @@
       height: 8px;
       border-radius: 50%;
       background: var(--gold);
+      flex-shrink: 0;
     }
 
     .header-text h2 {
@@ -169,6 +171,18 @@
       margin-top: 0.1rem;
     }
 
+    /* Mobile header toggle button */
+    .menu-btn {
+      display: none;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: var(--gold);
+      font-size: 1.4rem;
+      margin-left: auto;
+      padding: 0.2rem 0.5rem;
+    }
+
     .messages {
       flex: 1;
       overflow-y: auto;
@@ -181,7 +195,7 @@
 
     .welcome {
       text-align: center;
-      padding: 3rem 2rem;
+      padding: 3rem 1rem;
     }
 
     .welcome-om {
@@ -251,13 +265,13 @@
       background: #fffaf3;
       color: #222;
       border-radius: 12px;
-      padding: 24px;
+      padding: 20px;
       line-height: 1.9;
       box-shadow: 0 2px 10px rgba(0,0,0,0.06);
     }
 
     .clean-verse-title {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: 700;
       margin-bottom: 14px;
     }
@@ -277,6 +291,7 @@
       border-left: 3px solid #d8d0c3;
       padding-left: 12px;
       margin-top: 6px;
+      font-size: 0.9rem;
     }
 
     .verse-link {
@@ -285,9 +300,7 @@
       font-weight: 600;
     }
 
-    .verse-link:hover {
-      text-decoration: underline;
-    }
+    .verse-link:hover { text-decoration: underline; }
 
     .typing {
       display: flex;
@@ -317,7 +330,7 @@
     }
 
     .input-area {
-      padding: 1.5rem 2rem;
+      padding: 1rem 1.5rem;
       border-top: 1px solid var(--border);
       background: var(--surface);
     }
@@ -346,9 +359,7 @@
       line-height: 1.6;
     }
 
-    textarea::placeholder {
-      color: var(--muted);
-    }
+    textarea::placeholder { color: var(--muted); }
 
     .send-btn {
       width: 38px;
@@ -363,16 +374,8 @@
       flex-shrink: 0;
     }
 
-    .send-btn svg {
-      width: 16px;
-      height: 16px;
-      fill: white;
-    }
-
-    .send-btn:disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
-    }
+    .send-btn svg { width: 16px; height: 16px; fill: white; }
+    .send-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
     .input-hint {
       font-size: 0.65rem;
@@ -389,15 +392,112 @@
       font-size: 0.85rem;
       color: #e8a080;
     }
+
+    /* ── MOBILE STYLES ── */
+    @media (max-width: 640px) {
+      html, body { overflow: auto; height: auto; }
+
+      .layout {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+        overflow: visible;
+      }
+
+      /* Sidebar becomes collapsible top bar */
+      .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: 1rem 1rem 0 1rem;
+        overflow: hidden;
+        max-height: 80px;
+        transition: max-height 0.3s ease;
+      }
+
+      .sidebar.open {
+        max-height: 500px;
+        padding-bottom: 1rem;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        margin-bottom: 0;
+        text-align: left;
+      }
+
+      .logo-om { font-size: 1.8rem; }
+      .logo-title { font-size: 0.9rem; margin-top: 0; }
+      .logo-subtitle { display: none; }
+
+      .divider { margin: 0.8rem 0; }
+
+      .sidebar-label { margin-top: 0.5rem; }
+
+      .chip { font-size: 0.75rem; padding: 0.4rem 0.9rem; }
+
+      .sidebar-quote { display: none; }
+
+      .menu-btn { display: block; }
+
+      .main {
+        flex: 1;
+        overflow: visible;
+      }
+
+      .chat-header {
+        padding: 0.8rem 1rem;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+      }
+
+      .messages {
+        padding: 1rem;
+        overflow: visible;
+        min-height: 60vh;
+      }
+
+      .welcome { padding: 2rem 0.5rem; }
+      .welcome-om { font-size: 3rem; }
+      .welcome h1 { font-size: 1.5rem; }
+      .welcome p { font-size: 0.8rem; }
+
+      .msg-user-bubble {
+        max-width: 90%;
+        font-size: 0.85rem;
+      }
+
+      .clean-verse-card {
+        padding: 16px;
+        font-size: 0.88rem;
+      }
+
+      .clean-verse-title { font-size: 1rem; }
+
+      .input-area {
+        padding: 0.8rem 1rem;
+        position: sticky;
+        bottom: 0;
+        z-index: 10;
+      }
+
+      .input-hint { display: none; }
+    }
   </style>
 </head>
 <body>
 <div class="layout">
-  <aside class="sidebar">
+  <aside class="sidebar" id="sidebar">
     <div class="logo">
       <span class="logo-om">ॐ</span>
-      <span class="logo-title">GITA</span>
-      <span class="logo-subtitle">Sacred Wisdom</span>
+      <div>
+        <span class="logo-title">GITA</span>
+        <span class="logo-subtitle">Sacred Wisdom</span>
+      </div>
+      <button class="menu-btn" onclick="toggleSidebar()" aria-label="Toggle menu">☰</button>
     </div>
 
     <div class="divider"></div>
@@ -462,6 +562,10 @@
   const inputEl = document.getElementById('userInput');
   const sendBtn = document.getElementById('sendBtn');
 
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+  }
+
   function autoResize(el) {
     el.style.height = 'auto';
     el.style.height = Math.min(el.scrollHeight, 120) + 'px';
@@ -478,9 +582,12 @@
     inputEl.value = text;
     autoResize(inputEl);
     inputEl.focus();
+    // Close sidebar on mobile after selecting
+    document.getElementById('sidebar').classList.remove('open');
   }
 
   function scrollToBottom() {
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     messagesEl.scrollTop = messagesEl.scrollHeight;
   }
 
@@ -530,10 +637,7 @@
 
   function addVerses(payload) {
     const results = payload.results || [];
-    if (!results.length) {
-      addError('No verses found for this feeling.');
-      return;
-    }
+    if (!results.length) { addError('No verses found for this feeling.'); return; }
 
     const wrapper = document.createElement('div');
     wrapper.className = 'msg-bot';
@@ -544,34 +648,26 @@
       html += `
         <div class="clean-verse-card">
           <div class="clean-verse-title">${i + 1}. ${escapeHtml(v.reference || 'Bhagavad Gita')}</div>
-
           <div class="clean-verse-block">
             <div class="clean-verse-label">Title:</div>
             <div>${escapeHtml(v.title || '')}</div>
           </div>
-
           <div class="clean-verse-block">
             <div class="clean-verse-label">Sanskrit:</div>
             <div class="clean-sanskrit">${escapeHtml(v.devanagari || '')}</div>
           </div>
-
           <div class="clean-verse-block">
             <div class="clean-verse-label">Exact Meaning:</div>
             <div>${escapeHtml(v.translation || '')}</div>
           </div>
-
           <div class="clean-verse-block">
             <div class="clean-verse-label">Simple Meaning:</div>
             <div>${escapeHtml(v.simplified_meaning || '')}</div>
           </div>
-
           <div class="clean-verse-block">
-            <a class="verse-link" href="${escapeHtml(v.source || '#')}" target="_blank" rel="noreferrer">
-              View Full Verse
-            </a>
+            <a class="verse-link" href="${escapeHtml(v.source || '#')}" target="_blank" rel="noreferrer">View Full Verse</a>
           </div>
-        </div>
-      `;
+        </div>`;
     });
 
     wrapper.innerHTML = html;
@@ -597,11 +693,10 @@
       const res = await fetch('/recommend', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: text })
+        body: JSON.stringify({ text })
       });
 
       removeTyping();
-
       const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
@@ -611,7 +706,7 @@
       }
     } catch (e) {
       removeTyping();
-      addError('Could not connect to the server. Make sure Flask is running.');
+      addError('Could not connect to the server.');
     } finally {
       sendBtn.disabled = false;
       inputEl.focus();
@@ -619,4 +714,4 @@
   }
 </script>
 </body>
-</html> .
+</html>
