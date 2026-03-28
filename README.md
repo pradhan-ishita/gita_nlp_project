@@ -1,8 +1,8 @@
 ---
 title: Gita NLP
 emoji: 🕉️
-colorFrom: orange
-colorTo: yellow
+colorFrom: yellow
+colorTo: red
 sdk: docker
 python_version: "3.10"
 app_file: app.py
